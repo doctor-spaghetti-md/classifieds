@@ -277,7 +277,7 @@
       .slice(0, 4);
 
     if(posts.length === 0){
-      ul.innerHTML = `<li class="muted tiny">No personals posts yet. Be the first brave soul.</li>`;
+      ul.innerHTML = `<li class="muted tiny">No personals posts yet. </li>`;
     } else {
       ul.innerHTML = posts.map(p => `
         <li>
@@ -440,4 +440,5 @@
   });
 </script>
 </body>
+
 </html>
