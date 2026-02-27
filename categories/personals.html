@@ -1,0 +1,293 @@
+<!-- categories/personals.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>classifieds • personals</title>
+  <meta name="description" content="All personals listings with pagination." />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap toprow">
+      <a class="brand" href="../index.html" aria-label="Classifieds home">
+        <span class="dot" aria-hidden="true"></span>
+        classifieds <span class="brandSub" aria-hidden="true">bagelhole edition</span>
+      </a>
+
+      <form class="search" action="#" method="get" onsubmit="return false;">
+        <label class="sr-only" for="q">search</label>
+        <input id="q" name="q" type="search" placeholder="search personals…" autocomplete="off" />
+
+        <label class="sr-only" for="sort">sort</label>
+        <select id="sort" name="sort" aria-label="Sort">
+          <option value="newest" selected>newest</option>
+          <option value="oldest">oldest</option>
+          <option value="title">title</option>
+        </select>
+
+        <button type="submit">Search</button>
+      </form>
+
+      <nav class="toplinks" aria-label="top links">
+        <a href="../index.html">home</a>
+        <a href="#">help</a>
+        <a class="postBtn" href="../actions/postad.html">post an ad</a>
+      </nav>
+    </div>
+
+    <div class="wrap subrow">
+      <div class="crumbs">
+        <a class="crumbLink" href="../index.html">home</a>
+        <span class="sep">•</span>
+        <strong>personals</strong>
+        <span class="sep">•</span>
+        <span class="muted">all listings</span>
+      </div>
+
+      <div class="pills" aria-label="category meta">
+        <span class="pill">per page: <strong>10</strong></span>
+        <span class="pill">sort: <strong id="sortPill">newest</strong></span>
+        <span class="pill glitch">be cool</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap catLayout">
+    <section class="card catHeader">
+      <div class="catTitleRow">
+        <h1>personals</h1>
+        <div class="muted tiny" id="countLine">loading…</div>
+      </div>
+
+      <div class="catTools">
+        <a class="bigPost" href="../actions/postad.html">+ post in personals</a>
+        <div class="muted tiny">Click a title to open the post.</div>
+      </div>
+    </section>
+
+    <!-- Listings -->
+    <section class="card catList" aria-label="personals listings">
+      <div class="listHead">
+        <div class="lhTitle">title</div>
+        <div class="lhWhen">posted</div>
+      </div>
+
+      <ul class="rows" id="postList" aria-live="polite"></ul>
+
+      <div class="emptyState muted tiny" id="emptyState" hidden>
+        No posts found. Either the city is quiet or your search terms are too powerful.
+      </div>
+    </section>
+
+    <!-- Pagination -->
+    <nav class="pager card" aria-label="pagination" id="pagerWrap">
+      <div class="pagerInner" id="pager"></div>
+      <div class="muted tiny" id="pagerInfo"></div>
+    </nav>
+  </main>
+
+  <footer class="wrap footer">
+    <a href="../index.html">home</a><span class="sep">•</span>
+    <a href="#">terms</a><span class="sep">•</span>
+    <a href="#">privacy</a><span class="sep">•</span>
+    <a href="#">safety</a><span class="sep">•</span>
+    <a href="#">contact</a>
+    <span class="copy muted">© 2026</span>
+  </footer>
+
+<script>
+  const STORE_KEY = "bagelhole_posts_v1";
+  const perPage = 10;
+  let currentPage = 1;
+
+  function loadPosts(){
+    try { return JSON.parse(localStorage.getItem(STORE_KEY) || "[]"); }
+    catch(e){ return []; }
+  }
+
+  // Only personals for now
+  function getPersonals(){
+    return loadPosts()
+      .filter(p => p.category === "personals")
+      .map(p => ({
+        id: p.id,
+        title: p.title,
+        postedAt: new Date(p.postedAt)
+      }));
+  }
+
+  function timeAgo(d){
+    const sec = Math.floor((Date.now() - d.getTime()) / 1000);
+    if(sec < 60) return "just now";
+    const min = Math.floor(sec / 60);
+    if(min < 60) return `${min}m`;
+    const hr = Math.floor(min / 60);
+    if(hr < 24) return `${hr}h`;
+    const day = Math.floor(hr / 24);
+    if(day < 7) return `${day}d`;
+    const wk = Math.floor(day / 7);
+    if(wk < 5) return `${wk}w`;
+    const mo = Math.floor(day / 30);
+    return `${mo}mo`;
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // --- Elements ---
+  const listEl = document.getElementById("postList");
+  const pagerWrap = document.getElementById("pagerWrap");
+  const pagerEl = document.getElementById("pager");
+  const infoEl = document.getElementById("pagerInfo");
+  const emptyEl = document.getElementById("emptyState");
+  const qEl = document.getElementById("q");
+  const sortEl = document.getElementById("sort");
+  const sortPill = document.getElementById("sortPill");
+  const countLine = document.getElementById("countLine");
+
+  function applyFilters(all){
+    const q = (qEl.value || "").trim().toLowerCase();
+    const sort = sortEl.value;
+
+    let filtered = all.slice();
+
+    if(q){
+      filtered = filtered.filter(p => p.title.toLowerCase().includes(q));
+    }
+
+    if(sort === "title"){
+      filtered.sort((a,b) => a.title.localeCompare(b.title));
+    } else if(sort === "oldest"){
+      filtered.sort((a,b) => a.postedAt - b.postedAt);
+    } else {
+      filtered.sort((a,b) => b.postedAt - a.postedAt);
+    }
+
+    sortPill.textContent = sort;
+    return filtered;
+  }
+
+  function makeDots(){
+    const s = document.createElement("span");
+    s.className = "pageDots";
+    s.textContent = "…";
+    return s;
+  }
+
+  function makePageBtn(label, page, disabled, active){
+    const a = document.createElement("a");
+    a.href = "#";
+    a.className = "pageBtn" + (active ? " active" : "") + (disabled ? " disabled" : "");
+    a.textContent = label;
+
+    if(disabled){
+      a.setAttribute("aria-disabled", "true");
+      return a;
+    }
+
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      currentPage = page;
+      render();
+      document.querySelector(".catList")?.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    return a;
+  }
+
+  function renderPager(totalPages, total, shownStart, shownEnd){
+    pagerEl.innerHTML = "";
+
+    if(totalPages <= 1){
+      pagerWrap.hidden = true;
+      return;
+    }
+    pagerWrap.hidden = false;
+
+    pagerEl.appendChild(makePageBtn("prev", currentPage - 1, currentPage === 1, false));
+
+    const windowSize = 7;
+    let start = Math.max(1, currentPage - Math.floor(windowSize / 2));
+    let end = Math.min(totalPages, start + windowSize - 1);
+    start = Math.max(1, end - windowSize + 1);
+
+    if(start > 1){
+      pagerEl.appendChild(makePageBtn("1", 1, false, currentPage === 1));
+      if(start > 2) pagerEl.appendChild(makeDots());
+    }
+
+    for(let i = start; i <= end; i++){
+      pagerEl.appendChild(makePageBtn(String(i), i, false, i === currentPage));
+    }
+
+    if(end < totalPages){
+      if(end < totalPages - 1) pagerEl.appendChild(makeDots());
+      pagerEl.appendChild(makePageBtn(String(totalPages), totalPages, false, currentPage === totalPages));
+    }
+
+    pagerEl.appendChild(makePageBtn("next", currentPage + 1, currentPage === totalPages, false));
+    infoEl.textContent = `Showing ${shownStart}–${shownEnd} of ${total}`;
+  }
+
+  function render(){
+    const all = getPersonals();
+    const filtered = applyFilters(all);
+    const total = filtered.length;
+
+    const totalPages = Math.max(1, Math.ceil(total / perPage));
+    if(currentPage > totalPages) currentPage = totalPages;
+
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage;
+    const pagePosts = filtered.slice(start, end);
+
+    listEl.innerHTML = "";
+
+    if(total === 0){
+      emptyEl.hidden = false;
+      pagerWrap.hidden = true;
+      countLine.textContent = "0 results";
+      return;
+    } else {
+      emptyEl.hidden = true;
+    }
+
+    pagePosts.forEach(p => {
+      const li = document.createElement("li");
+      li.className = "row";
+      li.innerHTML = `
+        <a class="rowLink" href="post.html?id=THE_ID_HERE">Title</a>
+          ${escapeHtml(p.title)}
+        </a>
+        <span class="rowWhen" title="${p.postedAt.toLocaleString()}">${timeAgo(p.postedAt)}</span>
+      `;
+      listEl.appendChild(li);
+    });
+
+    const shownStart = start + 1;
+    const shownEnd = Math.min(end, total);
+    countLine.textContent = `showing ${shownStart}–${shownEnd} of ${total}`;
+
+    renderPager(totalPages, total, shownStart, shownEnd);
+  }
+
+  qEl.addEventListener("input", () => { currentPage = 1; render(); });
+  sortEl.addEventListener("change", () => { currentPage = 1; render(); });
+
+  window.addEventListener("storage", (e) => {
+    if(e.key === STORE_KEY){ render(); }
+  });
+
+  render();
+</script>
+</body>
+</html>

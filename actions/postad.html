@@ -1,0 +1,352 @@
+<!-- actions/postad.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>classifieds • post</title>
+  <meta name="description" content="Post an ad: choose a category and fill out the form." />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap toprow">
+      <a class="brand" href="../index.html" aria-label="Classifieds home">
+        <span class="dot" aria-hidden="true"></span>
+        classifieds <span class="brandSub" aria-hidden="true">bagelhole edition</span>
+      </a>
+
+      <div class="crumbs">
+        <strong>post</strong>
+        <span class="sep">•</span>
+        <span class="muted">choose one category</span>
+      </div>
+
+      <nav class="toplinks" aria-label="top links">
+        <a href="../index.html">home</a>
+        <a href="#">help</a>
+        <a href="#">account</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap postLayout">
+    <!-- LEFT: category picker (only these six) -->
+    <section class="picker" aria-label="category picker">
+      <div class="pickerHead">
+        <h1>post an ad</h1>
+        <p class="muted">Step 1: choose a category on the left. Step 2: fill out the form on the right.</p>
+
+        <div class="callout" role="note" aria-label="choose a category note">
+          <div class="calloutTitle">choose one</div>
+          <div class="calloutBody">
+            You can only post under:
+            <strong>Personals</strong>, <strong>Rants &amp; Raves</strong>, <strong>Events</strong>,
+            <strong>Lost &amp; Found</strong>, <strong>Services</strong>, or <strong>For Sale</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="pickerGrid">
+        <section class="pickGroup">
+          <div class="pickTitleRow">
+            <h2>categories</h2>
+            <span class="hint muted">pick exactly one</span>
+          </div>
+
+          <div class="pickBtns bigPick">
+            <button class="pickBtn active" type="button" data-form="f-personals">Personals</button>
+            <button class="pickBtn" type="button" data-form="f-rants">Rants &amp; Raves</button>
+            <button class="pickBtn" type="button" data-form="f-events">Events</button>
+            <button class="pickBtn" type="button" data-form="f-lost">Lost &amp; Found</button>
+            <button class="pickBtn" type="button" data-form="f-services-offered">Services</button>
+            <button class="pickBtn" type="button" data-form="f-forsale">For Sale</button>
+          </div>
+
+          <p class="tiny muted" style="margin:10px 0 0;">
+            Tip: switching categories will not save what you typed. i am so fucking sorry and i am furious
+          </p>
+        </section>
+
+        <section class="pickGroup">
+          <div class="pickTitleRow">
+            <h2>quick rules</h2>
+            <span class="hint muted">r</span>
+          </div>
+          <ul class="rules">
+            <li>rule</li>
+            <li>rule</li>
+            <li>meet in my home.</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <!-- RIGHT: form panel -->
+    <section class="forms" aria-label="post form area">
+      <section class="card formsTop">
+        <div class="postTitle">selected category</div>
+        <div class="muted tiny">You must choose one category from the left.</div>
+        <div class="chosen" id="chosenLabel">Personals</div>
+      </section>
+
+<!-- Personals (default) -->
+<section class="card adForm" id="f-personals" data-title="Personals">
+  <h2>Personals</h2>
+
+  <form id="personalsForm">
+    <label>
+      title
+      <input id="pTitle" type="text" required maxlength="120"
+             placeholder="text" />
+    </label>
+
+    <label>
+      details
+      <textarea id="pBody" rows="7" required maxlength="2500"
+                placeholder="text"></textarea>
+    </label>
+
+    <label>
+      contact email (optional)
+      <input id="pEmail" type="email" placeholder="you@example.com" />
+    </label>
+
+    <button class="submit" type="submit">post</button>
+    <p class="tiny muted" id="postStatus" aria-live="polite"></p>
+  </form>
+</section>
+
+      <!-- Rants & Raves -->
+      <section class="card adForm" id="f-rants" data-title="Rants &amp; Raves" hidden>
+        <h2>Rants &amp; Raves</h2>
+
+        <label>
+          title
+          <input type="text" placeholder="e.g., stop emailing me “quick question”" />
+        </label>
+
+        <label>
+          rant
+          <textarea rows="7" placeholder="sssss."></textarea>
+        </label>
+
+        <button class="submit" type="button">post rant</button>
+      </section>
+
+      <!-- Events -->
+      <section class="card adForm" id="f-events" data-title="Events" hidden>
+        <h2>Events</h2>
+
+        <label>
+          title
+          <input type="text" placeholder="terwetwetw" />
+        </label>
+
+        <div class="grid2">
+          <label>
+            date
+            <input type="text" placeholder="e.g., Friday" />
+          </label>
+          <label>
+            location
+            <input type="text" placeholder="e.g., ????" />
+          </label>
+        </div>
+
+        <label>
+          details
+          <textarea rows="7" placeholder="..."></textarea>
+        </label>
+
+        <label>
+          contact email
+          <input type="email" placeholder="you@example.com" />
+        </label>
+
+        <button class="submit" type="button">post event</button>
+      </section>
+
+      <!-- Lost & Found -->
+      <section class="card adForm" id="f-lost" data-title="Lost &amp; Found" hidden>
+        <h2>Lost &amp; Found</h2>
+
+        <label>
+          title
+          <input type="text" placeholder="..." />
+        </label>
+
+        <label>
+          details
+          <textarea rows="7" placeholder="text."></textarea>
+        </label>
+
+        <label>
+          contact email
+          <input type="email" placeholder="you@example.com" />
+        </label>
+
+        <button class="submit" type="button">post</button>
+      </section>
+
+      <!-- Services (single category; form is “Services Offered” by default) -->
+      <section class="card adForm" id="f-services-offered" data-title="Services">
+        <h2>Services</h2>
+
+        <label>
+          title
+          <input type="text" placeholder="te" />
+        </label>
+
+        <div class="grid2">
+          <label>
+            desired pay (optional)
+            <input type="text" placeholder="text" />
+          </label>
+
+          <label>
+            location
+            <input type="text" placeholder="k" />
+          </label>
+        </div>
+
+        <label>
+          details
+          <textarea rows="7" placeholder="text."></textarea>
+        </label>
+
+        <label>
+          contact email
+          <input type="email" placeholder="you@example.com" />
+        </label>
+
+        <button class="submit" type="button">post service</button>
+        <p class="tiny muted">text.</p>
+      </section>
+
+      <!-- For Sale -->
+      <section class="card adForm" id="f-forsale" data-title="For Sale" hidden>
+        <h2>For Sale</h2>
+
+        <label>
+          title
+          <input type="text" placeholder="text" />
+        </label>
+
+        <div class="grid2">
+          <label>
+            price
+            <input type="text" placeholder="e.g., $60" />
+          </label>
+          <label>
+            location
+            <input type="text" placeholder="text" />
+          </label>
+        </div>
+
+        <label>
+          details
+          <textarea rows="7" placeholder="text"></textarea>
+        </label>
+
+        <label>
+          contact email
+          <input type="email" placeholder="you@example.com" />
+        </label>
+
+        <button class="submit" type="button">post listing</button>
+      </section>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <a href="../index.html">home</a><span class="sep">•</span>
+    <a href="#">terms</a><span class="sep">•</span>
+    <a href="#">privacy</a><span class="sep">•</span>
+    <a href="#">safety</a><span class="sep">•</span>
+    <a href="#">contact</a>
+    <span class="copy muted">© 2026</span>
+  </footer>
+
+  <script>
+    const btns = Array.from(document.querySelectorAll(".pickBtn"));
+    const forms = Array.from(document.querySelectorAll(".adForm"));
+    const chosen = document.getElementById("chosenLabel");
+
+    function showForm(id){
+      forms.forEach(f => f.hidden = (f.id !== id));
+      btns.forEach(b => b.classList.toggle("active", b.dataset.form === id));
+      const active = document.getElementById(id);
+      chosen.innerHTML = active?.dataset?.title || "choose a category";
+
+      if(active){
+        active.classList.remove("pop");
+        void active.offsetWidth;
+        active.classList.add("pop");
+      }
+    }
+
+    btns.forEach(b => b.addEventListener("click", () => showForm(b.dataset.form)));
+    // ensure correct default
+    showForm("f-personals");
+  </script>
+  <script>
+  // ------- LocalStorage helpers -------
+  const STORE_KEY = "bagelhole_posts_v1";
+
+  function loadPosts(){
+    try{ return JSON.parse(localStorage.getItem(STORE_KEY) || "[]"); }
+    catch(e){ return []; }
+  }
+
+  function savePosts(posts){
+    localStorage.setItem(STORE_KEY, JSON.stringify(posts));
+  }
+
+  function uid(){
+    return "p_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8);
+  }
+
+  // ------- Personals form submit -------
+  const personalsForm = document.getElementById("personalsForm");
+  const postStatus = document.getElementById("postStatus");
+
+  if(personalsForm){
+    personalsForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById("pTitle").value.trim();
+      const body  = document.getElementById("pBody").value.trim();
+      const email = document.getElementById("pEmail").value.trim();
+
+      if(!title || !body){
+        postStatus.textContent = "Need a title and details.";
+        return;
+      }
+
+      const newPost = {
+        id: uid(),
+        category: "personals",
+        title,
+        body,
+        email,
+        postedAt: new Date().toISOString()
+      };
+
+      const posts = loadPosts();
+      posts.unshift(newPost);              // newest first
+      savePosts(posts);
+
+      postStatus.textContent = "Posted. Taking you to Personals…";
+      personalsForm.reset();
+
+      // send them to the category page so they see it instantly
+      setTimeout(() => {
+        window.location.href = "../categories/personals.html";
+      }, 400);
+    });
+  }
+</script>
+</body>
+</html>

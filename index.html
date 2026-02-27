@@ -1,0 +1,443 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>classifieds • home</title>
+  <meta name="description" content="Classifieds front page with category columns and recent post titles." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="wrap toprow">
+      <a class="brand" href="index.html" aria-label="Classifieds home">
+        <span class="dot" aria-hidden="true"></span>
+        classifieds <span class="brandSub" aria-hidden="true">bagelhole edition</span>
+      </a>
+
+      <form class="search" action="#" method="get" onsubmit="return false;">
+        <label class="sr-only" for="q">search</label>
+        <input id="q" name="q" type="search" placeholder="search listings…" />
+
+        <label class="sr-only" for="loc">location</label>
+        <select id="loc" name="loc">
+          <option>Norfolk</option>
+          <!-- <option>Online / Anywhere</option> -->
+        </select>
+
+        <button type="submit">Search</button>
+      </form>
+
+      <nav class="toplinks" aria-label="top links">
+        <a href="#" data-modal="help">help</a>
+        <a href="#" data-modal="newsletter">newsletter</a>
+        <a class="postBtn" href="actions/postad.html">post an ad</a>
+      </nav>
+    </div>
+
+    <div class="wrap subrow">
+      <div class="crumbs">
+        <strong>home</strong>
+        <span class="sep">•</span>
+        <span class="muted">browse categories or skim new posts</span>
+      </div>
+
+      <div class="pills" aria-label="site status">
+        <span class="pill">new: 214</span>
+        <span class="pill">updated: today</span>
+        <span class="pill">anonymous replies</span>
+        <span class="pill glitch">pee</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <!-- LEFT RAIL -->
+    <aside class="rail" aria-label="highlights">
+      <section class="card postCard">
+        <div class="postTitle">post an ad</div>
+        <p class="muted">
+          Selling something? Hiring? Seeking connection? Put it on the board.
+        </p>
+        <a class="bigPost" href="actions/postad.html">+ post an ad</a>
+        <div class="tiny muted">tip: ????</div>
+      </section>
+
+      <section class="card">
+        <div class="postTitle">trending tags</div>
+        <div class="tags">
+          <a href="#" class="tag" data-modal="tag">#text</a>
+          <a href="#" class="tag" data-modal="tag">#text</a>
+          <a href="#" class="tag" data-modal="tag">#text</a>
+          <a href="#" class="tag" data-modal="tag">#text</a>
+          <a href="#" class="tag" data-modal="tag">#text</a>
+          <a href="#" class="tag hot" data-modal="tag">#text</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="postTitle">newest posts</div>
+        <ul class="posts compact" id="newestPosts"></ul>
+      </section>
+
+      <section class="card tinyCard">
+        <div class="postTitle">safety</div>
+        <p class="muted tiny">
+          text
+        </p>
+        <a class="link" href="#" data-modal="safety">read more</a>
+      </section>
+
+      <section class="stamp" aria-label="site stamp">
+        <div class="stampInner">
+          <div class="stampTop">BAGELHOLE</div>
+          <div class="stampMid">classifieds</div>
+          <div class="stampBot">est. 1999</div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- BOARD -->
+    <section class="board" aria-label="classifieds categories">
+      <!-- COMMUNITY -->
+      <section class="col" aria-labelledby="h-community">
+        <header class="colHead">
+          <h2 id="h-community">Personals &amp; Missed Connections</h2>
+          <a class="viewAll" href="categories/personals.html">view all</a>
+        </header>
+
+        <div class="recent">
+          <div class="recentHead">recent in personals</div>
+          <ul class="posts" id="recentPersonals"></ul>
+        </div>
+      </section>
+
+      <!-- RANTS -->
+      <section class="col" aria-labelledby="h-rants">
+        <header class="colHead">
+          <h2 id="h-rants">Rants &amp; Raves</h2>
+          <a class="viewAll" href="categories/personals.html">view all</a>
+        </header>
+
+        <div class="recent">
+          <div class="recentHead">recent in rants &amp; raves</div>
+          <ul class="posts">
+            <li><a href="#" data-modal="stub">text</a><span class="when">1h</span></li>
+            <li><a href="#" data-modal="stub">text</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">stop emailing me “quick question”</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">i saw a man</a><span class="when">yday</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- EVENTS -->
+      <section class="col" aria-labelledby="h-events">
+        <header class="colHead">
+          <h2 id="h-events">events</h2>
+          <a class="viewAll" href="categories/personals.html">view all</a>
+        </header>
+
+        <div class="recent">
+          <div class="recentHead">recent in events</div>
+          <ul class="posts">
+            <li><a href="#" data-modal="stub">text</a><span class="when">1h</span></li>
+            <li><a href="#" data-modal="stub">text</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">text</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">coffee meetup: no networking, i beg</a><span class="when">yday</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- LOST -->
+      <section class="col" aria-labelledby="h-lost">
+        <header class="colHead">
+          <h2 id="h-lost">Lost &amp; Found</h2>
+          <a class="viewAll" href="categories/personals.html">view all</a>
+        </header>
+
+        <div class="recent">
+          <div class="recentHead">recent in lost &amp; found</div>
+          <ul class="posts">
+            <li><a href="#" data-modal="stub">text</a><span class="when">30m</span></li>
+            <li><a href="#" data-modal="stub">found: text</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">lost: text</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">found: note </a><span class="when">yday</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section class="col" aria-labelledby="h-services">
+        <header class="colHead">
+          <h2 id="h-services">services</h2>
+          <a class="viewAll" href="categories/personals.html">view all</a>
+        </header>
+
+        <div class="recent">
+          <div class="recentHead">recent in services</div>
+          <ul class="posts">
+            <li><a href="#" data-modal="stub">text</a><span class="when">1h</span></li>
+            <li><a href="#" data-modal="stub">2 people available</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">text</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">text</a><span class="when">yday</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- FOR SALE -->
+      <section class="col" aria-labelledby="h-forsale">
+        <header class="colHead">
+          <h2 id="h-forsale">for sale</h2>
+          <a class="viewAll" href="categories/personals.html">view all</a>
+        </header>
+
+        <div class="recent">
+          <div class="recentHead">recent in for sale</div>
+          <ul class="posts">
+            <li><a href="#" data-modal="stub">text</a><span class="when">30m</span></li>
+            <li><a href="#" data-modal="stub">text</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">text</a><span class="when">today</span></li>
+            <li><a href="#" data-modal="stub">text</a><span class="when">yday</span></li>
+          </ul>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <a href="#" data-modal="terms">terms</a><span class="sep">•</span>
+    <a href="#" data-modal="privacy">privacy</a><span class="sep">•</span>
+    <a href="#" data-modal="safety">safety</a><span class="sep">•</span>
+    <a href="#" data-modal="contact">contact</a>
+    <span class="copy muted">© 2026</span>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modalBack" id="modalBack" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalTop">
+        <div class="modalTitle" id="modalTitle">terms</div>
+        <button class="modalClose" type="button" id="modalClose" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modalBody">
+        <div class="modalText" id="modalText"></div>
+        <div class="modalArt" id="modalArt" hidden>
+          <img id="modalImg" alt="nonsense illustration" />
+        </div>
+      </div>
+
+      <div class="modalFoot">
+        <button class="modalBtn" type="button" id="modalOk">ok i will behave</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const STORE_KEY = "bagelhole_posts_v1";
+
+  function loadPosts(){
+    try { return JSON.parse(localStorage.getItem(STORE_KEY) || "[]"); }
+    catch(e){ return []; }
+  }
+
+  function timeAgoISO(iso){
+    const d = new Date(iso);
+    const sec = Math.floor((Date.now() - d.getTime()) / 1000);
+    if(sec < 60) return "just now";
+    const min = Math.floor(sec / 60);
+    if(min < 60) return `${min}m`;
+    const hr = Math.floor(min / 60);
+    if(hr < 24) return `${hr}h`;
+    const day = Math.floor(hr / 24);
+    if(day < 7) return `${day}d`;
+    const wk = Math.floor(day / 7);
+    if(wk < 5) return `${wk}w`;
+    const mo = Math.floor(day / 30);
+    return `${mo}mo`;
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // PERSONALS: recent 4 (for the category column)
+  const ul = document.getElementById("recentPersonals");
+  if(ul){
+    const posts = loadPosts()
+      .filter(p => p.category === "personals")
+      .slice(0, 4);
+
+    if(posts.length === 0){
+      ul.innerHTML = `<li class="muted tiny">No personals posts yet. Be the first brave soul.</li>`;
+    } else {
+      ul.innerHTML = posts.map(p => `
+        <li>
+          <a rel="nofollow" href="categories/post.html?id=${encodeURIComponent(p.id)}">
+            <span class="t">personals:</span> ${escapeHtml(p.title)}
+          </a>
+          <span class="when">${timeAgoISO(p.postedAt)}</span>
+        </li>
+      `).join("");
+    }
+  }
+
+  // RAIL: newest posts (personals-only for now)
+  const newest = document.getElementById("newestPosts");
+  if(newest){
+    const posts = loadPosts()
+      .filter(p => p.category === "personals")
+      .slice(0, 5);
+
+    if(posts.length === 0){
+      newest.innerHTML = `<li class="muted tiny">text.</li>`;
+    } else {
+      newest.innerHTML = posts.map(p => `
+        <li>
+          <a rel="nofollow" href="categories/post.html?id=${encodeURIComponent(p.id)}">
+            ${escapeHtml(p.title)}
+          </a>
+          <span class="when">${timeAgoISO(p.postedAt)}</span>
+        </li>
+      `).join("");
+    }
+  }
+
+  // Optional: live refresh if another tab adds a post
+  window.addEventListener("storage", (e) => {
+    if(e.key === STORE_KEY){
+      location.reload();
+    }
+  });
+
+  // ---------- Nonsense modal ----------
+  const modalBack  = document.getElementById("modalBack");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalText  = document.getElementById("modalText");
+  const modalClose = document.getElementById("modalClose");
+  const modalOk    = document.getElementById("modalOk");
+  const modalArt   = document.getElementById("modalArt");
+  const modalImg   = document.getElementById("modalImg");
+
+  const nonsense = {
+    terms: {
+      title: "terms (alleged)",
+      lines: [
+        "text"
+      ],
+      img: "https://picsum.photos/seed/bagelhole-terms/720/480"
+    },
+    privacy: {
+      title: "privacy (mostly emotional)",
+      lines: [
+        "text"
+      ],
+      img: "https://picsum.photos/seed/bagelhole-privacy/720/480"
+    },
+    safety: {
+      title: "safety (gently threatening)",
+      lines: [
+        "text"
+      ],
+      img: "https://picsum.photos/seed/bagelhole-safety/720/480"
+    },
+    contact: {
+      title: "contact (please don’t)",
+      lines: [
+        "text"
+      ],
+      img: "https://picsum.photos/seed/bagelhole-contact/720/480"
+    },
+    help: {
+      title: "help",
+      lines: [
+        "text"
+      ],
+      img: "https://picsum.photos/seed/bagelhole-help/720/480"
+    },
+    newsletter: {
+      title: "newsletter",
+      lines: [
+        "text"
+      ],
+      img: "https://picsum.photos/seed/bagelhole-newsletter/720/480"
+    },
+    stub: {
+      title: "not implemented",
+      lines: [
+        "text"
+      ],
+      img: "https://picsum.photos/seed/bagelhole-stub/720/480"
+    },
+    tag: {
+      title: "tag search (imaginary)",
+      lines: [
+        "text"
+      ],
+      img: "https://picsum.photos/seed/bagelhole-tag/720/480"
+    }
+  };
+
+  function openModal(kind){
+    const data = nonsense[kind] || nonsense.stub;
+    modalTitle.textContent = data.title;
+
+    const pick = data.lines.slice().sort(() => Math.random() - 0.5);
+    modalText.innerHTML = `
+      <p><strong>${escapeHtml(pick[0] || "be cool.")}</strong></p>
+      ${(pick[1] ? `<p>${escapeHtml(pick[1])}</p>` : "")}
+      ${(pick[2] ? `<p>${escapeHtml(pick[2])}</p>` : "")}
+      <p class="muted tiny">text.</p>
+    `;
+
+    if(data.img){
+      modalArt.hidden = false;
+      // cache-bust so it feels fresh each click
+      modalImg.src = data.img + "?t=" + Date.now();
+    } else {
+      modalArt.hidden = true;
+      modalImg.removeAttribute("src");
+    }
+
+    modalBack.classList.add("open");
+    modalBack.setAttribute("aria-hidden", "false");
+    modalClose.focus();
+  }
+
+  function closeModal(){
+    modalBack.classList.remove("open");
+    modalBack.setAttribute("aria-hidden", "true");
+  }
+
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("[data-modal]");
+    if(a){
+      e.preventDefault();
+      openModal(a.getAttribute("data-modal"));
+      return;
+    }
+  });
+
+  modalClose.addEventListener("click", closeModal);
+  modalOk.addEventListener("click", closeModal);
+
+  modalBack.addEventListener("click", (e) => {
+    if(e.target === modalBack) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape" && modalBack.classList.contains("open")){
+      closeModal();
+    }
+  });
+</script>
+</body>
+</html>

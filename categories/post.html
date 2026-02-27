@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>classifieds • post</title>
+  <meta name="description" content="Single post view." />
+  <link rel="stylesheet" href="../style.css" />
+
+  <!-- Leaflet (OpenStreetMap tiles) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap toprow">
+      <a class="brand" href="../index.html" aria-label="Classifieds home">
+        <span class="dot" aria-hidden="true"></span>
+        classifieds <span class="brandSub" aria-hidden="true">bagelhole edition</span>
+      </a>
+
+      <div class="crumbs">
+        <a class="crumbLink" href="../index.html">home</a>
+        <span class="sep">•</span>
+        <a class="crumbLink" href="personals.html" id="crumbCat">personals</a>
+        <span class="sep">•</span>
+        <strong id="crumbPost">post</strong>
+      </div>
+
+      <nav class="toplinks" aria-label="top links">
+        <a href="../index.html">home</a>
+        <a href="../actions/postad.html" class="postBtn">post an ad</a>
+      </nav>
+    </div>
+
+    <div class="wrap subrow">
+      <div class="crumbs">
+        <span class="muted" id="metaLine">loading…</span>
+      </div>
+
+      <div class="pills" aria-label="post meta">
+        <span class="pill">id: <strong id="postIdPill">—</strong></span>
+        <span class="pill glitch">text</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap catLayout">
+    <section class="card catHeader">
+      <div class="catTitleRow">
+        <h1 id="postTitle">loading…</h1>
+        <div class="muted tiny" id="postWhen">—</div>
+      </div>
+
+      <div class="catTools">
+        <a class="bigPost" href="personals.html" id="backBtn">← back to category</a>
+        <div class="muted tiny">text.</div>
+      </div>
+    </section>
+
+    <section class="card" id="postCard">
+      <div class="postTitle">details</div>
+      <p id="postBody" style="white-space:pre-wrap; margin:0;"></p>
+
+      <div style="margin-top:12px;">
+        <div class="postTitle">contact</div>
+        <div class="muted tiny" id="postEmail">no email provided</div>
+      </div>
+
+      <!-- Random map -->
+      <div class="mapCard" id="mapCard" hidden>
+        <div class="mapTop">
+          <div class="mapLabel">approx. location (random)</div>
+          <div class="mapCoords muted tiny" id="mapCoords"></div>
+        </div>
+
+        <div class="mapImg" id="map" aria-label="Map with a pin"></div>
+
+        <div class="muted tiny mapFineprint">not verified. not accurate. </div>
+      </div>
+    </section>
+
+    <section class="card" id="missingCard" hidden>
+      <div class="postTitle">post not found</div>
+      <p class="muted" style="margin:0;">
+        text
+      </p>
+      <div style="margin-top:10px;">
+        <a class="bigPost" href="personals.html">go to personals</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <a href="../index.html">home</a><span class="sep">•</span>
+    <a href="#">terms</a><span class="sep">•</span>
+    <a href="#">privacy</a><span class="sep">•</span>
+    <a href="#">safety</a><span class="sep">•</span>
+    <a href="#">contact</a>
+    <span class="copy muted">© 2026</span>
+  </footer>
+
+  <script>
+    const STORE_KEY = "bagelhole_posts_v1";
+
+    function loadPosts(){
+      try { return JSON.parse(localStorage.getItem(STORE_KEY) || "[]"); }
+      catch(e){ return []; }
+    }
+
+    function timeAgoISO(iso){
+      const d = new Date(iso);
+      const sec = Math.floor((Date.now() - d.getTime()) / 1000);
+      if(sec < 60) return "just now";
+      const min = Math.floor(sec / 60);
+      if(min < 60) return `${min}m`;
+      const hr = Math.floor(min / 60);
+      if(hr < 24) return `${hr}h`;
+      const day = Math.floor(hr / 24);
+      if(day < 7) return `${day}d`;
+      const wk = Math.floor(day / 7);
+      if(wk < 5) return `${wk}w`;
+      const mo = Math.floor(day / 30);
+      return `${mo}mo`;
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+
+    const postTitleEl = document.getElementById("postTitle");
+    const postBodyEl  = document.getElementById("postBody");
+    const postWhenEl  = document.getElementById("postWhen");
+    const metaLineEl  = document.getElementById("metaLine");
+    const postIdPill  = document.getElementById("postIdPill");
+    const postEmailEl = document.getElementById("postEmail");
+
+    const missingCard = document.getElementById("missingCard");
+    const postCard    = document.getElementById("postCard");
+
+    const crumbCat = document.getElementById("crumbCat");
+    const backBtn  = document.getElementById("backBtn");
+
+    // Map bits
+    const mapCard   = document.getElementById("mapCard");
+    const mapCoords = document.getElementById("mapCoords");
+    const mapEl     = document.getElementById("map");
+
+    const posts = loadPosts();
+    const post = posts.find(p => p.id === id);
+
+    if(!id || !post){
+      postCard.hidden = true;
+      missingCard.hidden = false;
+      metaLineEl.textContent = "missing post";
+      postIdPill.textContent = id ? id : "none";
+    } else {
+      // Basic render
+      postTitleEl.textContent = post.title || "untitled";
+      postBodyEl.textContent = post.body || "";
+      postIdPill.textContent = post.id;
+
+      const when = timeAgoISO(post.postedAt);
+      postWhenEl.textContent = `posted ${when}`;
+      metaLineEl.textContent = `posted ${when} • category: ${post.category || "unknown"}`;
+
+      // Category link routing (only personals wired right now)
+      const cat = (post.category || "personals").toLowerCase();
+      let catHref = "personals.html";
+      if(cat === "personals") catHref = "personals.html";
+
+      crumbCat.href = catHref;
+      crumbCat.textContent = cat;
+      backBtn.href = catHref;
+
+      // Email
+      if(post.email && String(post.email).trim()){
+        postEmailEl.innerHTML = `<a class="link" href="mailto:${escapeHtml(post.email)}">${escapeHtml(post.email)}</a>`;
+      } else {
+        postEmailEl.textContent = "no email provided";
+      }
+
+      // ----- Random map pin (Leaflet + OSM tiles, no broken image) -----
+      // East-coast-ish box (change to global if you want)
+      const lat = rand(28.0, 46.0);
+      const lon = rand(-87.0, -66.0);
+
+      const latStr = lat.toFixed(5);
+      const lonStr = lon.toFixed(5);
+
+      if(mapCard && mapCoords && mapEl && window.L){
+        mapCard.hidden = false;
+        mapCoords.textContent = `${latStr}, ${lonStr}`;
+
+        // Prevent double-init if you ever re-render without reload
+        if(!mapEl._leaflet_id){
+          const map = L.map("map", {
+            zoomControl: true,
+            attributionControl: false
+          }).setView([lat, lon], 11);
+
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19
+          }).addTo(map);
+
+          L.marker([lat, lon]).addTo(map).bindPopup("alleged location").openPopup();
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1274 @@
+/* =========================================================
+   classifieds_style.css (NEON BAGELBITES THEME PASS)
+   Same layout + class names, new palette + glow.
+   ========================================================= */
+
+/* ---------- Theme tokens (Bagelbites-ish) ---------- */
+:root{
+  /* core */
+  --bg: #09050f;
+  --paper: rgba(255,255,255,.07);      /* used as "panel" */
+  --paper2: rgba(255,255,255,.10);
+  --ink: #f7f2ff;
+  --muted: rgba(247,242,255,.70);
+  --line: rgba(255,255,255,.14);
+
+  /* neon */
+  --pink: #ff4fd8;
+  --hotpink: #ff2fbf;
+  --aqua: #38f6ff;
+  --lime: #baff3a;
+  --sun: #ffd34a;
+  --violet: #7a00ff;
+
+  /* sizing */
+  --r: 14px;
+  --shadow: 0 18px 60px rgba(0,0,0,.35);
+  --shadow2: 0 10px 28px rgba(0,0,0,.28);
+
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --sans: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: var(--sans);
+  color: var(--ink);
+  overflow-x:hidden;
+
+  /* Bagelbites-style neon night sky */
+  background:
+    radial-gradient(1200px 700px at 15% -10%, rgba(255,79,216,.28), transparent 55%),
+    radial-gradient(900px 600px at 85% 0%, rgba(56,246,255,.20), transparent 55%),
+    radial-gradient(900px 700px at 60% 115%, rgba(186,255,58,.12), transparent 55%),
+    linear-gradient(180deg, #0a0611 0%, #070410 100%);
+}
+
+/* Subtle glitter overlay */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.18;
+  mix-blend-mode:screen;
+
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.09) 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,.07) 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,79,216,.09) 1px, transparent 2px),
+    radial-gradient(circle, rgba(56,246,255,.08) 1px, transparent 2px),
+    radial-gradient(circle, rgba(186,255,58,.075) 1px, transparent 2px),
+    radial-gradient(circle, rgba(122,0,255,.075) 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,.05) 2px, transparent 4px),
+    radial-gradient(circle, rgba(255,79,216,.055) 2px, transparent 4px),
+    radial-gradient(circle, rgba(56,246,255,.045) 2px, transparent 4px);
+
+  background-size:
+    140px 140px,
+    230px 230px,
+    180px 180px,
+    270px 270px,
+    200px 200px,
+    330px 330px,
+    410px 410px,
+    320px 320px,
+    520px 520px;
+
+  background-position:
+    0 0,
+    40px 60px,
+    120px 30px,
+    200px 140px,
+    80px 180px,
+    260px 40px,
+    340px 220px,
+    180px 260px,
+    60px 320px;
+}
+
+.wrap{
+  width:min(1180px, calc(100% - 22px));
+  margin-inline:auto;
+}
+
+a{ color:inherit; }
+
+.sr-only{
+  position:absolute !important;
+  width:1px;height:1px;
+  padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);
+  white-space:nowrap;border:0;
+}
+
+.muted{ color:var(--muted); }
+.tiny{ font-size:12px; }
+.sep{ opacity:.55; padding:0 8px; }
+
+/* =========================================================
+   Header
+   ========================================================= */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+
+  background:
+    linear-gradient(90deg, rgba(255,79,216,.22), rgba(56,246,255,.14), rgba(186,255,58,.10));
+  border-bottom:1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(14px);
+}
+
+.toprow{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  padding:12px 0 10px;
+}
+
+.brand{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  text-decoration:none;
+  font-family: var(--mono);
+  font-weight:900;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  text-shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+
+.brandSub{
+  font-weight:800;
+  font-size:11px;
+  color: rgba(255,255,255,.85);
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.20);
+  padding:2px 8px;
+  border-radius:999px;
+}
+
+.dot{
+  width:12px;height:12px;
+  border-radius:3px;
+  background: linear-gradient(135deg, var(--violet), var(--pink));
+  box-shadow:
+    0 0 0 3px rgba(122,0,255,.18),
+    0 0 0 6px rgba(255,79,216,.12),
+    0 0 18px rgba(56,246,255,.20);
+}
+
+.search{
+  flex:1;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.search input{
+  flex:1;
+  min-width:140px;
+  padding:10px 10px;
+  border-radius: 10px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  font-family: var(--sans);
+  color: var(--ink);
+  outline:none;
+}
+
+.search input::placeholder{ color: rgba(247,242,255,.55); }
+
+.search select{
+  padding:10px 10px;
+  border-radius: 10px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.85);
+  outline:none;
+}
+
+.search button{
+  padding:10px 12px;
+  border-radius: 10px;
+  border:1px solid rgba(56,246,255,.30);
+  background: rgba(56,246,255,.12);
+  color: rgba(247,242,255,.95);
+  font-weight:900;
+  cursor:pointer;
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+
+.search button:hover{
+  border-color: rgba(255,79,216,.35);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    0 0 0 4px rgba(255,79,216,.12),
+    0 0 26px rgba(56,246,255,.18);
+}
+
+.toplinks{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  font-family: var(--mono);
+  font-size:13px;
+}
+
+.toplinks a{
+  text-decoration:none;
+  opacity:.92;
+}
+
+.toplinks a:hover{
+  opacity:1;
+  text-decoration:underline;
+}
+
+/* Loud CTA (post an ad) */
+.postBtn{
+  position:relative;
+  padding:9px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.22);
+  font-weight:900;
+  text-decoration:none;
+  overflow:hidden;
+  box-shadow: 0 14px 34px rgba(0,0,0,.35);
+}
+
+.postBtn::before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:999px;
+  background: conic-gradient(from 90deg, var(--pink), var(--violet), var(--aqua), var(--lime), var(--sun), var(--pink));
+  filter: blur(10px);
+  opacity:.85;
+  animation: rainbowSpin 2.2s linear infinite;
+  z-index:-1;
+}
+
+.postBtn:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    0 0 0 4px rgba(255,79,216,.12),
+    0 0 32px rgba(255,79,216,.30);
+}
+@keyframes rainbowSpin{ to{ transform: rotate(360deg); } }
+
+.subrow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:0 0 12px;
+}
+
+.crumbs{
+  font-family: var(--mono);
+  font-size:12px;
+}
+
+.pills{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.pill{
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.82);
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.18);
+  padding:6px 10px;
+  border-radius:999px;
+}
+
+.pill.glitch{
+  color: rgba(247,242,255,.95);
+  border-color: rgba(255,79,216,.32);
+  background: linear-gradient(90deg, rgba(0,0,0,.25), rgba(255,79,216,.12));
+  text-shadow: 0 0 14px rgba(255,79,216,.25);
+}
+
+/* =========================================================
+   Layout: rail + board
+   ========================================================= */
+.layout{
+  display:grid;
+  grid-template-columns: 300px 1fr;
+  gap:16px;
+  padding:16px 0 26px;
+  align-items:start;
+}
+
+.board{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding:14px;
+
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:12px;
+}
+
+.col{
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+  border-radius: 14px;
+  box-shadow: var(--shadow2);
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  min-height: 320px;
+}
+
+.colHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+
+  padding:8px 10px;
+  margin-bottom:10px;
+
+  border:1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.15));
+  border-radius: 12px;
+
+  position:relative;
+}
+
+.colHead::after{
+  content:"◌";
+  position:absolute;
+  right:10px;
+  bottom:-10px;
+  font-family: var(--mono);
+  font-size:18px;
+  color: rgba(255,79,216,.22);
+  transform: rotate(-10deg);
+}
+
+.colHead h2{
+  margin:0;
+  font-size:15px;
+  letter-spacing:.1px;
+  text-transform:lowercase;
+}
+
+.viewAll{
+  font-family: var(--mono);
+  font-size:12px;
+  color: var(--aqua);
+  text-decoration:none;
+  border-bottom:1px dotted currentColor;
+}
+
+.viewAll:hover{ border-bottom-style:solid; }
+
+.recent{
+  margin:0 0 12px;
+  border-top:1px solid rgba(255,255,255,.12);
+  padding-top:10px;
+}
+
+.recentHead{
+  font-family: var(--mono);
+  font-size:12px;
+  color: var(--pink);
+  margin-bottom:8px;
+  text-transform:lowercase;
+}
+
+.posts{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.posts li{
+  display:grid;
+  grid-template-columns: 1fr auto;
+  gap:10px;
+  align-items:baseline;
+}
+
+.posts a{
+  text-decoration:none;
+  border-bottom:1px dotted rgba(247,242,255,.42);
+  line-height:1.25;
+  font-size:13px;
+}
+
+.posts a:hover{ border-bottom-style:solid; }
+
+.posts .t{
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.62);
+}
+
+.when{
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.62);
+  white-space:nowrap;
+}
+
+/* Left rail */
+.rail{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.card{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius: var(--r);
+  box-shadow: var(--shadow2);
+  padding:12px;
+}
+
+.postTitle{
+  font-family: var(--mono);
+  font-weight:900;
+  font-size:12px;
+  color: rgba(247,242,255,.90);
+  text-transform:lowercase;
+  letter-spacing:.2px;
+  margin-bottom:10px;
+}
+
+/* Big rail CTA (kept, made neon) */
+.bigPost{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:10px;
+  padding:12px 12px;
+  border-radius: 14px;
+  text-decoration:none;
+  font-family: var(--mono);
+  font-weight:900;
+  border:1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.22);
+  color: rgba(247,242,255,.95);
+  overflow:hidden;
+  box-shadow: 0 14px 34px rgba(0,0,0,.35);
+}
+
+.bigPost::before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, rgba(255,79,216,.22), rgba(56,246,255,.14), rgba(186,255,58,.10));
+  filter: blur(10px);
+  opacity:.75;
+  z-index:-1;
+}
+
+.bigPost:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    0 0 0 4px rgba(255,79,216,.12),
+    0 0 26px rgba(56,246,255,.18);
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.tag{
+  text-decoration:none;
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.92);
+  border:1px solid rgba(56,246,255,.22);
+  background: rgba(56,246,255,.10);
+  padding:6px 10px;
+  border-radius:999px;
+}
+
+.tag:hover{
+  border-color: rgba(255,79,216,.30);
+  box-shadow: 0 0 18px rgba(255,79,216,.18);
+}
+
+.tag.hot{
+  color: rgba(247,242,255,.98);
+  border-color: rgba(255,79,216,.34);
+  background: linear-gradient(90deg, rgba(255,79,216,.18), rgba(56,246,255,.10));
+  text-shadow: 0 0 16px rgba(255,79,216,.22);
+}
+
+.link{
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.92);
+  text-decoration:none;
+  border-bottom:1px dotted rgba(247,242,255,.55);
+}
+
+.link:hover{ border-bottom-style:solid; }
+
+.tinyCard p{ margin:0 0 8px; }
+
+/* Stamp */
+.stamp{
+  border:1px dashed rgba(255,79,216,.35);
+  background: rgba(0,0,0,.18);
+  border-radius: 14px;
+  padding:10px;
+  transform: rotate(-1deg);
+}
+
+.stampInner{
+  border:1px solid rgba(56,246,255,.18);
+  border-radius: 12px;
+  padding:10px;
+  text-align:center;
+  font-family: var(--mono);
+}
+
+.stampTop{
+  font-weight:900;
+  letter-spacing:1.2px;
+  color: rgba(186,255,58,.92);
+  text-shadow: 0 0 18px rgba(186,255,58,.18);
+}
+
+.stampMid{
+  font-size:12px;
+  color: rgba(247,242,255,.62);
+  margin-top:4px;
+}
+
+.stampBot{
+  font-size:12px;
+  margin-top:6px;
+  color: rgba(255,79,216,.88);
+}
+
+/* Footer */
+.footer{
+  padding:0 0 26px;
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.62);
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.footer a{
+  text-decoration:none;
+  border-bottom:1px dotted rgba(247,242,255,.55);
+}
+
+.footer a:hover{ border-bottom-style:solid; }
+
+.copy{ margin-left:auto; }
+
+/* =========================================================
+   Post / Forms (kept structure, match theme)
+   ========================================================= */
+.postLayout{
+  display:grid;
+  grid-template-columns: 320px 1fr;
+  gap:16px;
+  padding:16px 0 26px;
+  align-items:start;
+}
+
+.picker{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding:14px;
+}
+
+.pickerHead h1{ margin:0 0 6px; font-size:22px; }
+.pickerHead p{ margin:0 0 12px; line-height:1.45; color: rgba(247,242,255,.72); }
+
+.pickerGrid{ display:flex; flex-direction:column; gap:12px; }
+
+.pickGroup{
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.20);
+  border-radius:14px;
+  box-shadow: var(--shadow2);
+  padding:12px;
+}
+
+.pickTitleRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.pickGroup h2{ margin:0; font-size:15px; letter-spacing:.1px; text-transform:lowercase; }
+.hint{ font-family: var(--mono); font-size:12px; color: rgba(247,242,255,.62); }
+
+.pickBtns{ display:flex; flex-wrap:wrap; gap:8px; }
+
+.pickBtn{
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+  padding:9px 10px;
+  border-radius:999px;
+  cursor:pointer;
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.90);
+}
+
+.pickBtn:hover{
+  border-color: rgba(56,246,255,.28);
+  box-shadow: 0 0 18px rgba(56,246,255,.14);
+}
+
+.pickBtn.active{
+  border-color: rgba(255,79,216,.35);
+  background: linear-gradient(90deg, rgba(255,79,216,.18), rgba(56,246,255,.10));
+  color: rgba(247,242,255,.98);
+  font-weight:900;
+}
+
+.forms{ display:flex; flex-direction:column; gap:12px; }
+.formsTop .chosen{ margin-top:6px; font-family: var(--mono); font-weight:900; color: var(--aqua); }
+
+.adForm h2{ margin:0 0 10px; font-size:18px; }
+
+.adForm label{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.65);
+  margin:10px 0 8px;
+}
+
+.adForm input,
+.adForm select,
+.adForm textarea{
+  width:100%;
+  padding:10px 10px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  font-family: var(--sans);
+  font-size:14px;
+  color: var(--ink);
+  outline:none;
+}
+
+.adForm input:focus,
+.adForm select:focus,
+.adForm textarea:focus{
+  border-color: rgba(255,79,216,.35);
+  box-shadow: 0 0 0 4px rgba(255,79,216,.12);
+}
+
+.adForm textarea{ resize:vertical; }
+
+.grid2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+
+.rules{
+  margin:0;
+  padding-left:18px;
+  font-family: var(--mono);
+  font-size:12px;
+  color: rgba(247,242,255,.62);
+  line-height:1.45;
+}
+
+.submit{
+  margin-top:12px;
+  width:auto;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.22);
+  color: rgba(247,242,255,.95);
+  font-family: var(--mono);
+  font-weight:900;
+  cursor:pointer;
+  box-shadow: 0 14px 34px rgba(0,0,0,.35);
+}
+
+.submit:hover{
+  transform: translateY(-1px);
+  border-color: rgba(56,246,255,.30);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    0 0 0 4px rgba(255,79,216,.12),
+    0 0 26px rgba(56,246,255,.18);
+}
+
+/* little pop-in on form swap */
+.adForm.pop{ animation: pop .14s ease-out; }
+@keyframes pop{
+  from{ transform: translateY(6px); opacity:0; }
+  to{ transform: translateY(0); opacity:1; }
+}
+
+/* =========================================================
+   Map card (post page) + modal (footer nonsense)
+   ========================================================= */
+.mapCard{
+  margin-top:12px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.20);
+  border-radius: var(--r);
+  box-shadow: var(--shadow2);
+  padding:12px;
+}
+
+.mapTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.mapLabel{
+  font-family: var(--mono);
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.2px;
+  text-transform:lowercase;
+}
+
+.mapImg{
+  width:100%;
+  height:220px;
+  display:block;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+  overflow:hidden;
+}
+
+/* Leaflet controls: subtle neon */
+.mapImg .leaflet-control-zoom a{
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:none;
+  background: rgba(0,0,0,.35);
+  color: rgba(247,242,255,.9);
+}
+
+/* Modal */
+.modalBack{
+  position:fixed;
+  inset:0;
+  background: rgba(8,10,20,.70);
+  backdrop-filter: blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  padding:18px;
+}
+.modalBack.open{ display:flex; }
+
+.modal{
+  width:min(720px, 100%);
+  background: rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  box-shadow: 0 26px 80px rgba(0,0,0,.55);
+  overflow:hidden;
+}
+
+.modalTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  border-bottom:1px solid rgba(255,255,255,.14);
+  background: linear-gradient(90deg, rgba(255,79,216,.16), rgba(56,246,255,.10));
+}
+
+.modalTitle{
+  font-family: var(--mono);
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.2px;
+  text-transform:lowercase;
+}
+
+.modalClose{
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  border-radius: 12px;
+  padding:8px 10px;
+  cursor:pointer;
+  font-family: var(--mono);
+  font-weight:900;
+  font-size:12px;
+  color: rgba(247,242,255,.92);
+}
+
+.modalClose:hover{
+  border-color: rgba(255,79,216,.30);
+  box-shadow: 0 0 18px rgba(255,79,216,.18);
+}
+
+.modalBody{
+  padding:14px;
+  display:grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap:14px;
+  align-items:start;
+}
+
+.modalText{
+  font-family: var(--sans);
+  line-height:1.45;
+  color: var(--ink);
+}
+
+.modalText p{ margin:0 0 10px; }
+.modalText .tiny{ margin-top:8px; color: rgba(247,242,255,.62); }
+
+.modalArt{
+  border:1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  overflow:hidden;
+  background: rgba(0,0,0,.22);
+  box-shadow: var(--shadow2);
+}
+
+.modalArt img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit: cover;
+}
+
+.modalFoot{
+  padding:12px 14px;
+  border-top:1px solid rgba(255,255,255,.14);
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  background: rgba(0,0,0,.18);
+}
+
+.modalBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:10px 12px;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.22);
+  color: rgba(247,242,255,.95);
+  font-family: var(--mono);
+  font-weight:900;
+  cursor:pointer;
+  box-shadow: 0 14px 34px rgba(0,0,0,.35);
+}
+
+.modalBtn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(56,246,255,.30);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    0 0 0 4px rgba(255,79,216,.12),
+    0 0 26px rgba(56,246,255,.18);
+}
+
+/* =========================================================
+   Responsive (kept)
+   ========================================================= */
+@media (max-width: 720px){
+  .modalBody{ grid-template-columns:1fr; }
+}
+
+@media (max-width: 1100px){
+  .board{ grid-template-columns: 1fr 1fr; }
+  .col{ min-height: unset; }
+}
+
+@media (max-width: 980px){
+  .layout{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px){
+  .postLayout{ grid-template-columns: 1fr; }
+  .grid2{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px){
+  .toprow{ flex-wrap:wrap; }
+  .search{ width:100%; }
+  .toplinks{ width:100%; justify-content:flex-end; }
+  .subrow{ flex-direction:column; align-items:flex-start; }
+  .pills{ justify-content:flex-start; }
+  .board{ grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   BAGELBITES-STYLE OVERRIDES (drop-in)
+   Put this at the VERY BOTTOM of classifieds_style.css
+   ========================================================= */
+
+/* 1) Stronger Bagelbites palette */
+:root{
+  --bg: #070410;
+  --ink: rgba(255,255,255,.95);
+  --muted: rgba(255,255,255,.70);
+  --line: rgba(255,255,255,.16);
+  --paper: rgba(0,0,0,.22);
+  --paper2: rgba(0,0,0,.28);
+
+  --pink: #ff4fd8;
+  --hotpink: #ff00dd;
+  --aqua: #00ddc0;
+  --violet: #7a5cff;
+}
+
+/* 2) Make the whole site feel like Bagelbites again */
+body{
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 700px at 18% -10%, rgba(255,79,216,.30), transparent 55%),
+    radial-gradient(900px 600px at 85% 0%, rgba(0,221,192,.22), transparent 55%),
+    radial-gradient(900px 700px at 60% 115%, rgba(122,92,255,.16), transparent 55%),
+    linear-gradient(180deg, #0a0611 0%, #070410 100%);
+}
+
+/* 3) Header bar goes neon, not white */
+.topbar{
+  background:
+    linear-gradient(90deg, rgba(255,79,216,.22), rgba(0,221,192,.14), rgba(122,92,255,.14));
+  border-bottom: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(14px);
+}
+
+/* 4) Brand + dot glow like Bagelbites */
+.brand{
+  text-shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+.dot{
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #fff 0 20%, var(--pink) 35%, var(--violet) 100%);
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.10),
+    0 0 22px rgba(255,79,216,.55),
+    0 0 18px rgba(0,221,192,.25);
+}
+
+/* 5) “Outlined white text” helper (reusable) */
+.outlineText{
+  color:#fff;
+  text-shadow:
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000,
+    0 2px 0 #000,
+    0 -2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000;
+}
+
+/* 6) Search + inputs go dark glassy */
+.search input,
+.search select,
+.search button{
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  color: var(--ink);
+}
+.search input::placeholder{ color: rgba(255,255,255,.55); }
+
+.search button{
+  font-weight:900;
+  box-shadow: 0 12px 30px rgba(0,0,0,.35), 0 0 18px rgba(255,79,216,.20);
+}
+.search button:hover{
+  border-color: rgba(255,79,216,.35);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    0 0 0 4px rgba(255,79,216,.12),
+    0 0 26px rgba(0,221,192,.18);
+}
+
+/* 7) Rainbow neon CTA: Post button and big rail button */
+.postBtn,
+.bigPost{
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.20);
+  color:#fff;
+  font-weight: 900;
+
+  /* outlined white text (same trick as Bagelbites rainbow button) */
+  text-shadow:
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000,
+    0 2px 0 #000,
+    0 -2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 0 22px rgba(255,230,250,.95),
+    0 0 22px rgba(255,79,216,.70);
+}
+
+.postBtn::before,
+.bigPost::before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius: 14px;
+  background: linear-gradient(
+    270deg,
+    rgba(220,42,255,.95),
+    rgba(0,221,192,.95),
+    rgba(255,0,221,.95),
+    rgba(169,10,231,.95),
+    rgba(0,207,255,.95),
+    rgba(122,92,255,.95),
+    rgba(255,0,221,.95)
+  );
+  background-size: 600% 600%;
+  animation: rainbowShift 3.2s ease infinite;
+  filter: blur(10px);
+  opacity: .85;
+  z-index:-1;
+}
+
+@keyframes rainbowShift{
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+
+.postBtn:hover,
+.bigPost:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    0 0 0 4px rgba(255,79,216,.12),
+    0 0 34px rgba(255,79,216,.35);
+}
+
+/* 8) Panels go dark */
+.board,
+.col,
+.card,
+.picker,
+.pickGroup,
+.modal,
+.catList .listHead{
+  background: rgba(0,0,0,.22) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  color: var(--ink);
+}
+
+/* 9) FILLED category headers (this is the “section header fill” you asked for) */
+.colHead{
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  background: rgba(0,0,0,.20) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+}
+
+.colHead::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(circle at 25% 50%, rgba(255,79,216,.55) 0%, rgba(255,79,216,.22) 40%, transparent 75%),
+    radial-gradient(circle at 75% 50%, rgba(255,0,221,.35) 0%, rgba(255,0,221,.16) 45%, transparent 80%);
+  filter: blur(12px);
+  opacity: .95;
+  animation: titleNeonPulse 2.4s ease-in-out infinite;
+  z-index:0;
+}
+
+@keyframes titleNeonPulse{
+  0%,100%{ transform: scale(1); opacity:.85; }
+  50%{ transform: scale(1.05); opacity:1; }
+}
+
+.colHead h2{
+  position: relative;
+  z-index:1;
+  margin:0;
+  padding: 2px 0;
+
+  /* white text + bold black outline */
+  color:#fff;
+  text-transform: lowercase;
+  letter-spacing: .2px;
+  font-weight: 900;
+  text-shadow:
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000,
+    0 0 16px rgba(255,79,216,.35);
+}
+
+/* 10) “recent” label pops neon */
+.recentHead{
+  color: rgba(255,79,216,.95);
+  text-shadow: 0 0 18px rgba(255,79,216,.22);
+}
+
+/* 11) Links and tags go neon */
+.viewAll{ color: rgba(0,221,192,.95); }
+.tag{
+  border-color: rgba(255,79,216,.28) !important;
+  background: rgba(255,79,216,.12) !important;
+  color:#fff !important;
+  box-shadow: 0 0 18px rgba(255,79,216,.14);
+}
+.tag.hot{
+  background: linear-gradient(90deg, rgba(255,79,216,.22), rgba(0,221,192,.12)) !important;
+  border-color: rgba(255,79,216,.40) !important;
+}
+
+/* 12) Post titles and list links stay readable */
+.posts a,
+.rowLink{
+  border-bottom-color: rgba(255,255,255,.40) !important;
+}
+.when,
+.posts .t,
+.catList .listHead{
+  color: rgba(255,255,255,.70) !important;
+}
+
+/* 13) Inputs focus = neon */
+.adForm input:focus,
+.adForm select:focus,
+.adForm textarea:focus{
+  border-color: rgba(255,79,216,.45) !important;
+  box-shadow: 0 0 0 4px rgba(255,79,216,.14) !important;
+}
+
+/* 14) Submit button gets neon treatment too */
+.submit{
+  border-color: rgba(255,79,216,.35) !important;
+  background: linear-gradient(90deg, rgba(255,79,216,.18), rgba(255,0,221,.12)) !important;
+  color:#fff !important;
+  text-shadow:
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000;
+  box-shadow: 0 12px 30px rgba(0,0,0,.35), 0 0 18px rgba(255,79,216,.22);
+}
+.submit:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    0 0 0 4px rgba(255,79,216,.12),
+    0 0 34px rgba(255,79,216,.35);
+}
+
+/* =========================================================
+   MOBILE: center top links (help/newsletter/post an ad)
+   Add at the VERY BOTTOM of classifieds_style.css
+   ========================================================= */
+@media (max-width: 680px){
+  /* Make the whole row feel centered */
+  .toprow{
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Keep search full-width (already in your CSS), then center nav */
+  .toplinks{
+    width: 100%;
+    justify-content: center !important; /* overrides your flex-end */
+    gap: 12px;
+  }
+
+  /* Optional: ensure the three items sit nicely centered */
+  .toplinks a{
+    display: inline-flex;
+    justify-content: center;
+  }
+
+  /* Optional: if you want the CTA to look centered even if it’s wider */
+  .toplinks .postBtn{
+    margin-left: 0;
+  }
+}
+
+/* =========================================================
+   FORCE "view all" to be clickable (fix overlay eating clicks)
+   ========================================================= */
+
+/* Make the header a stacking context we control */
+.colHead{
+  position: relative;
+  z-index: 0;          /* establish a baseline */
+}
+
+/* Put glow layers behind everything and make them ignore clicks */
+.colHead::before,
+.colHead::after{
+  z-index: -1 !important;      /* behind header contents */
+  pointer-events: none !important;
+}
+
+/* Put the actual text + link above everything */
+.colHead h2,
+.colHead .viewAll{
+  position: relative;
+  z-index: 5;
+}
+
+/* Extra safety: make the link itself “topmost” */
+.colHead .viewAll{
+  pointer-events: auto;
+  cursor: pointer;
+}
